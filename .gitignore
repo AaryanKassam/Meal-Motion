@@ -1,0 +1,19 @@
+*.class
+*.log
+
+# Build outputs
+build/
+out/
+.gradle/
+
+# App outputs
+MealMotionPlan.csv
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+

@@ -15,6 +15,37 @@ public class MealPreparation {
 
         SwingUtilities.invokeLater(() -> new WizardApp().show());
     }
+
+    /**
+     * Loads a logo from `resources/logo.png` (relative to the working directory),
+     * falling back to classpath `/resources/logo.png` if packaged that way.
+     */
+    static ImageIcon loadLogoIcon(int maxWidthPx) {
+        // 1) Easy dev workflow: drop a file into ./resources/logo.png
+        File disk = new File("resources/logo.png");
+        if (disk.exists() && disk.isFile()) {
+            return new ImageIcon(disk.getPath());
+        }
+
+        // 2) Packaged workflow: include it on the classpath at /resources/logo.png
+        try {
+            java.net.URL url = MealPreparation.class.getResource("/resources/logo.png");
+            if (url != null) return new ImageIcon(url);
+        } catch (Exception ignored) { }
+
+        return null;
+    }
+
+    static ImageIcon scaleIcon(ImageIcon icon, int maxWidthPx) {
+        if (icon == null) return null;
+        int w0 = icon.getIconWidth();
+        int h0 = icon.getIconHeight();
+        if (w0 <= 0 || h0 <= 0) return icon;
+        int w = Math.min(maxWidthPx, w0);
+        int h = (int) ((double) h0 / (double) w0 * (double) w);
+        Image scaled = icon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaled);
+    }
 }
 
 /* -------------------- Splash Screen -------------------- */
@@ -31,13 +62,13 @@ class MealMotionSplashScreen {
         content.setBackground(new Color(250, 250, 250));
 
         try {
-            ImageIcon icon = new ImageIcon(MealPreparation.class.getResource("/resources/logo.png"));
-            Image img = icon.getImage();
-            int w = Math.min(240, icon.getIconWidth());
-            int h = (int)((double) icon.getIconHeight() / icon.getIconWidth() * w);
-            Image scaled = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
-            JLabel logo = new JLabel(new ImageIcon(scaled));
-            logo.setBounds(80, 30, w, h);
+            ImageIcon icon = MealPreparation.scaleIcon(MealPreparation.loadLogoIcon(240), 240);
+            if (icon == null) throw new RuntimeException("Logo not found");
+
+            JLabel logo = new JLabel(icon);
+            int w = icon.getIconWidth();
+            int h = icon.getIconHeight();
+            logo.setBounds((400 - w) / 2, 30, w, h);
             logo.setHorizontalAlignment(SwingConstants.CENTER);
             content.add(logo);
         } catch (Exception ex) {
@@ -98,6 +129,10 @@ class WizardApp {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 400);
         frame.setLocationRelativeTo(null);
+        try {
+            ImageIcon icon = MealPreparation.loadLogoIcon(256);
+            if (icon != null) frame.setIconImage(icon.getImage());
+        } catch (Exception ignored) { }
 
         cardLayout = new CardLayout();
         cards = new JPanel(cardLayout);

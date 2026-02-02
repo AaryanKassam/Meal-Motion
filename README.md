@@ -1,6 +1,14 @@
 # Meal-Motion
 
-MealMotion is a Java Swing desktop application that provides users with a fully personalized nutrition and workout plan. Designed for anyone #looking to reach their health and fitness goals, MealMotion tailors weekly meal recommendations and exercise routines based on the user’s age, #weight, height, gender, dietary preferences, body goal, and target weight.
+```
+ __  __            _ __  __       _   _
+|  \/  | ___  __ _| |  \/  | ___ | |_(_) ___  _ __
+| |\/| |/ _ \/ _` | | |\/| |/ _ \| __| |/ _ \| '_ \
+| |  | |  __/ (_| | | |  | | (_) | |_| | (_) | | | |
+|_|  |_|\___|\__,_|_|_|  |_|\___/ \__|_|\___/|_| |_|
+```
+
+MealMotion is a Java Swing desktop application that provides users with a fully personalized nutrition and workout plan. Designed for anyone looking to reach their health and fitness goals, MealMotion tailors weekly meal recommendations and exercise routines based on the user’s age, weight, height, gender, dietary preferences, body goal, and target weight.
 
 Example Use Case:
 
@@ -11,3 +19,23 @@ Example Use Case:
 - Download your plan as a CSV file for tracking and implementation.
 
 - MealMotion is perfect for students, professionals, and fitness enthusiasts looking for an all-in-one personalized health planner.
+
+## Logo
+
+When the program starts, it shows a splash screen with a **MealMotion logo**.
+
+- Put your logo file at `resources/logo.png`
+- If it’s missing, the splash screen falls back to a simple “MealMotion” text title
+
+## Run / Build (Gradle)
+
+- Requirements:
+  - JDK 17+
+  - Gradle installed (`gradle`)
+
+- Run the app:
+  - `gradle run`
+- Build a runnable JAR:
+  - `gradle jar`
+
+The packaged app uses `src/main/resources/logo.png`. You can still override the logo during development by placing a PNG at `resources/logo.png`.
